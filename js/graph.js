@@ -1,25 +1,34 @@
 function Graph() {
-    this.vertices = {};
+    this.vertices = [];
 
     this.addVertex = function(vertexLabel) {
-        if(!this.vertices.hasOwnProperty(vertexLabel)) {
-            this.vertices[vertexLabel] = {};
+        if (!this.vertices.hasOwnProperty(vertexId)) {
+            this.vertices.push()
         }
     };
 
-    this.removeVertex = function(vertexLabel) {
-        delete this.vertices[vertexLabel];
+    this.removeVertex = function(vertexId) {
+        delete this.vertices[vertexId];
     };
 
-    this.addEdge = function(sourceVertexLabel, destinationVertexLabel, weight) {
-        if(!this.vertices[sourceVertexLabel].hasOwnProperty(destinationVertexLabel)) {
-            this.vertices[sourceVertexLabel][destinationVertexLabel] = [];
+    this.addEdge = function(sourceVertexId, destinationVertexId, weight) {
+        if (!this.vertices[sourceVertexId].hasOwnProperty(destinationVertexId)) {
+            this.vertices[sourceVertexId][destinationVertexId] = [];
         }
 
-        this.vertices[sourceVertexLabel][destinationVertexLabel].push(weight);
-    };
-
-    this.dijkstra = function(sourceVertexLabel, destinationVertexLabel) {
-        
+        this.vertices[sourceVertexId][destinationVertexId].push(weight);
     };
 }
+
+Graph.prototype.dijkstra = function(sourceVertexLabel) {
+    var D = []; // undefined equal infinite
+    var E = [1];
+
+    for (var i = 2; i < this.vertices.length; i++) {
+        D[i] = this.vertices[1][i];
+    }
+
+    for (var i = 2; i < this.vertices.length; i++) {
+        
+    }
+};
