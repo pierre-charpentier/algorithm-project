@@ -4,14 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Algorithm</title>
-    <link rel="stylesheet" type="" href="node_modules/vis/dist/vis.min.css">
+    <!--<link rel="stylesheet" type="" href="node_modules/vis/dist/vis.min.css">-->
     <link rel="stylesheet" href="css/style.css">
-    <script src="node_modules/vis/dist/vis-network.min.js"></script>
+    <!--<script src="node_modules/vis/dist/vis-network.min.js"></script>-->
+    <script src="js/graph.js"></script>
 </head>
 
 <body>
     <div id="network"></div>
+    <script>
+        var g = new Graph();
+        g.addVertex('A');
+        g.addVertex('B');
+        g.addVertex('C');
+        g.addVertex('D');
+        g.addVertex('E');
+        g.addEdge(1, 2, 10);
+        g.addEdge(1, 5, 100);
+        g.addEdge(1, 4, 30);
+        g.addEdge(2, 3, 50);
+        g.addEdge(3, 5, 10);
+        g.addEdge(4, 3, 20);
+        g.addEdge(4, 5, 60);
 
+        console.log(g.dijkstra(2));
+
+    </script>
     <script src="js/main.js"></script>
     <script src="js/graph.js"></script>
 </body>
