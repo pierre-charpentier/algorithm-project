@@ -1,22 +1,13 @@
 function Dijkstra() {
-    this.graph = undefined,
-    this.N = 0,
-    this.D = [],
-    this.E = [],
-    this.pred = [],
+    this.graph = undefined;
+    this.N = 0;
+    this.D = [];
+    this.E = [];
+    this.pred = [];
     this.sourceVertexId;
 
-    this.init = function (graph, sourceVertexId) {
-        this.graph = graph,
-        this.N = graph.vertices.length,
-        this.D = [],
-        this.E = [],
-        this.pred = [],
-        this.sourceVertexId = sourceVertexId - 1;
-    },
-
-    this.run = function () {
-        if(!this.graph) {
+    this.run = function() {
+        if (!this.graph) {
             return;
         }
 
@@ -36,7 +27,7 @@ function Dijkstra() {
 
             if (t) {
                 this.E[t] = true;
-                this.graph.vertices[t].successors.forEach(function (weight, vertexId) {
+                this.graph.vertices[t].successors.forEach(function(weight, vertexId) {
                     var m = self.D[t] + weight;
 
                     if (self.D[vertexId] > m) {
@@ -49,32 +40,13 @@ function Dijkstra() {
                 break;
             }
         }
-    },
+    }
 
-    this.getPath = function (destinationVertexId) {
-        var path = [destinationVertexId];
-
-        if(this.pred.length > 0) {
-            var currentVertexId = destinationVertexId - 1;
-
-            while(currentVertexId != this.sourceVertexId) {
-                path.unshift(this.pred[currentVertexId] + 1);
-                currentVertexId = this.pred[currentVertexId];
-            }
-        }
-
-        return path;
-    },
-
-    this.getWeight = function (destinationVertexId) {
-        return this.D[destinationVertexId - 1];
-    },
-
-    this.findMinimumIndex = function () {
+    this.findMinimumIndex = function() {
         var self = this;
         // This is to ignore already processed vertices (E)
         // So T is X with all vertices contained in E set to an infinite weight
-        var T = this.D.map(function (value, index) {
+        var T = this.D.map(function(value, index) {
             if (self.E[index]) {
                 value = Infinity;
             }
@@ -96,4 +68,32 @@ function Dijkstra() {
 
         return index;
     }
-};
+}
+
+Bellman.prototype.init = function(graph, sourceVertexId) {
+    this.graph = graph;
+    this.N = graph.vertices.length;
+    this.D = [];
+    this.E = [];
+    this.pred = [];
+    this.sourceVertexId = sourceVertexId - 1;
+}
+
+Bellman.prototype.getPath = function(destinationVertexId) {
+    var path = [destinationVertexId];
+
+    if (this.pred.length > 0) {
+        var currentVertexId = destinationVertexId - 1;
+
+        while (currentVertexId != this.sourceVertexId) {
+            path.unshift(this.pred[currentVertexId] + 1);
+            currentVertexId = this.pred[currentVertexId];
+        }
+    }
+
+    return path;
+}
+
+Bellman.prototype.getWeight = function(destinationVertexId) {
+    return this.D[destinationVertexId - 1];
+}
