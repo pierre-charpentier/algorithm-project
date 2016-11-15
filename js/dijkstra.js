@@ -70,7 +70,7 @@ function Dijkstra() {
     }
 }
 
-Bellman.prototype.init = function(graph, sourceVertexId) {
+Dijkstra.prototype.init = function(graph, sourceVertexId) {
     this.graph = graph;
     this.N = graph.vertices.length;
     this.D = [];
@@ -79,7 +79,7 @@ Bellman.prototype.init = function(graph, sourceVertexId) {
     this.sourceVertexId = sourceVertexId - 1;
 }
 
-Bellman.prototype.getPath = function(destinationVertexId) {
+Dijkstra.prototype.getPath = function(destinationVertexId) {
     var path = [destinationVertexId];
 
     if (this.pred.length > 0) {
@@ -94,6 +94,6 @@ Bellman.prototype.getPath = function(destinationVertexId) {
     return path;
 }
 
-Bellman.prototype.getWeight = function(destinationVertexId) {
+Dijkstra.prototype.getWeight = function(destinationVertexId) {
     return this.D[destinationVertexId - 1];
 }
