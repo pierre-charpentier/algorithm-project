@@ -1,18 +1,20 @@
-function Dijkstra() {
-    this.graph = undefined;
-    this.N = 0;
+function Dijkstra(graph) {
+    this.graph = graph;
+    this.N = graph.vertices.length;
     this.D = [];
     this.E = [];
     this.pred = [];
     this.sourceVertexId;
 
-    this.run = function() {
+    this.run = function(sourceVertexId) {
         if (!this.graph) {
             return;
         }
 
         var self = this;
+        var result = [];
 
+        this.sourceVertexId = sourceVertexId - 1;
         this.pred[this.sourceVertexId] = this.sourceVertexId;
 
         this.E[this.sourceVertexId] = true;
@@ -26,7 +28,13 @@ function Dijkstra() {
             var t = this.findMinimumIndex();
 
             if (t) {
-                this.E[t] = true;
+                result.push({
+                    "E": this.E.slice(0),
+                    "chosenVertex": t,
+                    "D": this.D.slice(0),
+                    "pred": this.pred.slice(0)
+                });
+                
                 this.graph.vertices[t].successors.forEach(function(weight, vertexId) {
                     var m = self.D[t] + weight;
 
@@ -35,11 +43,15 @@ function Dijkstra() {
                         self.pred[vertexId] = t;
                     }
                 });
+
+                this.E[t] = true;
             } else {
                 // If no minimum is found, we can stop
                 break;
             }
         }
+
+        return result;
     }
 
     this.findMinimumIndex = function() {
@@ -68,15 +80,6 @@ function Dijkstra() {
 
         return index;
     }
-}
-
-Dijkstra.prototype.init = function(graph, sourceVertexId) {
-    this.graph = graph;
-    this.N = graph.vertices.length;
-    this.D = [];
-    this.E = [];
-    this.pred = [];
-    this.sourceVertexId = sourceVertexId - 1;
 }
 
 Dijkstra.prototype.getPath = function(destinationVertexId) {

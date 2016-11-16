@@ -13,7 +13,58 @@
 </head>
 
 <body>
+    <table id="resultTable" border="1" cellpadding="3" style="text-align:center; margin-bottom: 20px;">
+        <thead>
+            <tr>
+            <th>E</th>
+            <th>Sommet choisi</th>
+            <th class="colspan">D</th>
+            <th class="colspan">Predécesseurs</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <button onclick="testDijkstra()">Test Dijkstra</button>
+    <button onclick="testBellman()">Test Bellman</button>
     <script>
+        function displayIterationTable(runResult, graph) {
+            var tbody = document.querySelector("#resultTable tbody");
+            tbody.innerHTML = "";
+            document.querySelectorAll(".colspan")[0].setAttribute("colspan", graph.vertices.length);
+            document.querySelectorAll(".colspan")[1].setAttribute("colspan", graph.vertices.length);
+
+            runResult.forEach(function (iteration, index) {
+                var tr = document.createElement("tr");
+                var td = document.createElement("td");
+
+                td.appendChild(document.createTextNode("{ "));
+                iteration.E.forEach(function (e, index) {
+                    td.innerHTML += e ? " " + graph.vertices[index].label : "";
+                });
+                td.appendChild(document.createTextNode(" }"));
+                tr.appendChild(td);
+
+                td = document.createElement("td");
+                td.innerHTML = graph.vertices[iteration.chosenVertex].label;
+                tr.appendChild(td);
+
+                iteration.D.forEach(function (d, index) {
+                    td = document.createElement("td");
+                    td.innerHTML = d == Infinity ? "&infin;" : d;
+                    tr.appendChild(td);
+                });
+
+                iteration.pred.forEach(function (predecessor, index) {
+                    td = document.createElement("td");
+                    td.innerHTML = predecessor == undefined ? "-" : graph.vertices[predecessor].label;
+                    tr.appendChild(td);
+                });
+
+                tbody.appendChild(tr);
+            });
+        }
+
         var g1 = new Graph();
         g1.addVertex('A');
         g1.addVertex('B');
@@ -27,12 +78,6 @@
         g1.addEdge(3, 5, 10);
         g1.addEdge(4, 3, 20);
         g1.addEdge(4, 5, 60);
-
-        var d = new Dijkstra();
-        d.init(g1, 1);
-        d.run();
-        document.write("Chemin: " + d.getPath(5) + "<br>");
-        document.write("Poids: " + d.getWeight(5));
 
         var g2 = new Graph();
         g2.addVertex('1');
@@ -51,10 +96,17 @@
         g2.addEdge(5, 6, -1);
         g2.addEdge(6, 4, -5);
 
-        var b = new Bellman();
-        b.init(g2);
-        b.run(1);
-        console.log(b.getWeight(6));
+        function testDijkstra() {
+            var d = new Dijkstra(g1);
+            displayIterationTable(d.run(2), g1);
+
+            var d = new Dijkstra(g1);
+        }
+
+        function testBellman() {
+            var b = new Bellman(g2);
+            displayIterationTable(b.run(1), g2);
+        }
     </script>
 </body>
 
