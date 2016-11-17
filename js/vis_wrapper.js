@@ -4,11 +4,15 @@ function displayVisNetwork(graph) {
     var edgesArray = [];
 
     graph.vertices.forEach(function (vertex, i) {
-        nodeArray.push({ id: i + 1, label: vertex.label });
+        nodesArray.push({ id: i + 1, label: vertex.label });
         vertex.successors.forEach(function (weight, j) {
-            edgesArray.push({ from: i + 1, label: weight, to: j + 1});
+            edgesArray.push({ from: i + 1, label: weight, to: j + 1, arrows: 'to'});
         });
     });
 
-    
+    var data = { nodes: nodesArray, edges: edgesArray };
+    var options = {
+    }
+
+    var network = new vis.Network(viewport, data, options);
 }
